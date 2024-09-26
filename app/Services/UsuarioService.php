@@ -10,9 +10,9 @@ class UsuarioService{
     public static function criarUsuario($data){
         try {
             $novoUsuario=Usuario::create([
-                'nome'=>$data->nome,
+                'name'=>$data->nome,
                 'sobrenome'=>$data->sobrenome,
-                'senha'=>Hash::make($data->senha),
+                'password'=>Hash::make($data->senha),
                 'email'=>$data->email,
                 'tipo'=>$data->tipo
     
@@ -31,9 +31,9 @@ class UsuarioService{
        try {
         $usuarioAtual=Usuario::find($data->id);
         $usuarioAtual->update([
-            'nome' => $data->nome,
+            'name' => $data->nome,
             'sobrenome' => $data->sobrenome,
-            'senha' => Hash::make($data->senha), // Caso a senha seja alterada
+            'password' => Hash::make($data->senha), // Caso a senha seja alterada
             'email' => $data->email,
             'tipo' => $data->tipo
         ]);
