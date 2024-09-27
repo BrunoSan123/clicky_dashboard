@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 
-class Usuario  extends Authenticatable implements FilamentUser
+class Usuario  extends Authenticatable
 {
     use HasFactory;
     use HasUuids;
@@ -20,9 +20,9 @@ class Usuario  extends Authenticatable implements FilamentUser
         return $this->hasMany(Empreendimento::class);
     }
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true;
-    }
+    // public function canAccessPanel(Panel $panel): bool
+    // {
+    //     return true;
+    // }
 
 }
