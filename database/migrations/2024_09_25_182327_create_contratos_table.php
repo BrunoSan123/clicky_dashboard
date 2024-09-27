@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('contratos', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->string('numero_do_contrato');
             $table->string('nome_do_contratante');
             $table->string('data_de_inicio');
