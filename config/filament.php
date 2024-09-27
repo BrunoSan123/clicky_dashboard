@@ -31,6 +31,11 @@ return [
 
     ],
 
+    'auth' => [
+    'guard' => 'web',
+    'login' => '/admin/login',
+],
+
     /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
