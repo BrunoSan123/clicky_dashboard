@@ -13,8 +13,19 @@ class Empreendimento extends Model
 
     protected $fillable=['nome_do_empreendimento','tipo','codigo','Usuario_id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($empreendimento) {
+            // Gera um número aleatório para o campo 'codigo' se ele ainda não estiver definido
+            $empreendimento->codigo = $empreendimento->codigo ?? rand(100000, 999999);
+        });
+    }
+
+
     public function usuario(){
-        return $this->belongsTo(Usuario::class);
+        return $this->belongsTo(User::class,'Usuario_id');
     }
 
     public function contrato(){

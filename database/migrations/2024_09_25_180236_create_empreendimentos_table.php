@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('codigo');
             $table->uuid('Usuario_id');
             $table->timestamps();
-            $table->foreign('Usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('Usuario_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

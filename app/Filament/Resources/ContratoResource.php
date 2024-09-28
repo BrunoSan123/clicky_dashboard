@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EmpreendimentoResource\Pages;
-use App\Filament\Resources\EmpreendimentoResource\RelationManagers;
-use App\Models\Empreendimento;
+use App\Filament\Resources\ContratoResource\Pages;
+use App\Filament\Resources\ContratoResource\RelationManagers;
+use App\Models\Contrato;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class EmpreendimentoResource extends Resource
+class ContratoResource extends Resource
 {
-    protected static ?string $model = Empreendimento::class;
+    protected static ?string $model = Contrato::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -24,9 +24,6 @@ class EmpreendimentoResource extends Resource
         return $form
             ->schema([
                 //
-                Forms\Components\TextInput::make('nome_do_empreendimento')->label('Nome do empreendimento'),
-                Forms\Components\TextInput::make('tipo')->label('Tipo'),
-
             ]);
     }
 
@@ -34,9 +31,7 @@ class EmpreendimentoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nome_do_empreendimento')->label('Nome do Empreendimento'),
-                Tables\Columns\TextColumn::make('tipo')->label('Tipo'),
-                Tables\Columns\TextColumn::make('usuario.name')->label('Usuário'),
+                //
             ])
             ->filters([
                 //
@@ -61,9 +56,9 @@ class EmpreendimentoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEmpreendimentos::route('/'),
-            'create' => Pages\CreateEmpreendimento::route('/create'),
-            'edit' => Pages\EditEmpreendimento::route('/{record}/edit'),
+            'index' => Pages\ListContratos::route('/'),
+            'create' => Pages\CreateContrato::route('/create'),
+            'edit' => Pages\EditContrato::route('/{record}/edit'),
         ];
     }
 }
