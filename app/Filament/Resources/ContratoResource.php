@@ -32,6 +32,15 @@ class ContratoResource extends Resource
         return $table
             ->columns([
                 //
+                Tables\Columns\TextColumn::make('numero_do_contrato')->label('Número do contrato'),
+                Tables\Columns\TextColumn::make('nome_do_contratante')->label('Nome do contratante'),
+                Tables\Columns\TextColumn::make('data_de_inicio')->label('Data de inicio'),
+                Tables\Columns\TextColumn::make('data_de_termino')->label('Data de termino'),
+                Tables\Columns\TextColumn::make('valor_do_contrato')->label('Valor de contrato'),
+                Tables\Columns\TextColumn::make('data_de_emissão')->label('Data de emissão'),
+                Tables\Columns\TextColumn::make('empreendimento.nome_do_empreendimento')->label('Nome do empreendimento'),
+
+
             ])
             ->filters([
                 //

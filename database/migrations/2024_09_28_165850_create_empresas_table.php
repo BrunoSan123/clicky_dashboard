@@ -11,15 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('empreendimentos', function (Blueprint $table) {
+        Schema::create('empresas', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('nome_do_empreendimento');
-            $table->string('tipo');
-            $table->string('codigo');
+            $table->string('nome_da_empresa');
+            $table->string('cnpj');
+            $table->string('cep');
+            $table->string('endereço');
             $table->uuid('Usuario_id');
-            $table->uuid('Empresa_id')->nullable();
             $table->timestamps();
             $table->foreign('Usuario_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::table('empreendimentos',function(Blueprint $table){
+            $table->foreign('Empresa_id')->references('id')->on('empresas')->onDelete('cascade');
         });
     }
 
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('empreendimentos');
+        Schema::dropIfExists('empresas');
     }
 };

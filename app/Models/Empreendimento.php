@@ -11,7 +11,7 @@ class Empreendimento extends Model
     use HasFactory;
     use HasUuids;
 
-    protected $fillable=['nome_do_empreendimento','tipo','codigo','Usuario_id'];
+    protected $fillable=['nome_do_empreendimento','tipo','codigo','Usuario_id','Empresa_id'];
 
     protected static function boot()
     {
@@ -30,5 +30,9 @@ class Empreendimento extends Model
 
     public function contrato(){
         return $this->hasOne(Contrato::class);
+    }
+
+    public function empresa(){
+        return $this->belongsTo(Empresa::class,'Empresa_id');
     }
 }

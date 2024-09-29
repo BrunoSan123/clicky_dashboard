@@ -6,7 +6,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "blade-ui-kit/blade-ui-kit": "^0.6.2",
         "filament/filament": "^3.2",
+        "filament/forms": "^3.2",
+        "flowframe/laravel-trend": "^0.3.0",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9"
