@@ -27,7 +27,7 @@ class EmpresaResource extends Resource
                 Forms\Components\TextInput::make('nome_da_empresa')->label('Nome da empresa')->required(),
                 Forms\Components\TextInput::make('cnpj')->label('CNPJ')->required(),
                 Forms\Components\TextInput::make('cep')->label('CEP')->required(),
-                Forms\Components\TextInput::make('endereço')->label('Endereço')->required()
+                Forms\Components\TextInput::make('endereço')->label('Endereço')->required(),
                 
             ]);
     }
