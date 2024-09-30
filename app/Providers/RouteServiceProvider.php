@@ -29,10 +29,10 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
-	Livewire::setUpdateRoute(function ($handle) {
-        $url =  'appname/public/livewire/update';
-        return Route::post($url, $handle);
-    });
+	// Livewire::setUpdateRoute(function ($handle) {
+    //     $url =  'appname/public/livewire/update';
+    //     return Route::post($url, $handle);
+    // });
 
         $this->routes(function () {
             Route::middleware('api')
