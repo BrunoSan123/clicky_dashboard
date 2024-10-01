@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clientes', function (Blueprint $table) {
+        Schema::create('unidades', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('nome')->nullable();
-            $table->string('sobrenome')->nullable();
-            $table->string('senha')->nullable();
-            $table->string('email')->nullable();
-            $table->string('tipo')->nullable();
+            $table->string('nome_da_unidade');
+            $table->integer('quantidade');
             $table->string('cnpj')->nullable();
-            $table->string('cpf')->nullable();
+            $table->string('região')->nullable();
+            $table->uuid('Empreendimento_id');
             $table->timestamps();
+            $table->foreign('Empreendimento_id')->references('id')->on('empreendimentos')->onDelete('cascade');
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('unidades');
     }
 };

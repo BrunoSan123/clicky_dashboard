@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Clusters\Empreendimentos;
 
-use App\Filament\Resources\EmpreendimentoResource\Pages;
-use App\Filament\Resources\EmpreendimentoResource\RelationManagers;
+use App\Filament\Clusters\Empreendimentos;
+use App\Filament\Clusters\Empreendimentos\EmpreendimentoResource\Pages;
 use App\Models\Empreendimento;
 use App\Models\Empresa;
 use App\Models\Contrato;
@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
 use Filament\Support\RawJs;
+use Filament\Forms\Components\Repeater;
 
 
 class EmpreendimentoResource extends Resource
@@ -24,6 +25,7 @@ class EmpreendimentoResource extends Resource
     protected static ?string $model = Empreendimento::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $cluster = Empreendimentos::class;
 
     public static function form(Form $form): Form
     {
@@ -78,7 +80,20 @@ class EmpreendimentoResource extends Resource
                     $contrato->valor_do_contrato = $data['valor_do_contrato'];
                     $contrato->data_de_emissão = $data['data_de_emissão'];
                     $contrato->save();
-                })
+                }),
+                Tables\Actions\Action::make('Vincular unidades')
+                ->button()
+                ->form([
+                    Repeater::make('unidades')
+                            ->schema([
+                                Forms\Components\TextInput::make('nome_da_unidade')->label('Nome da unidade'),
+                                Forms\Components\TextInput::make('quantidade')->label('Quantidade')->numeric(),
+                                Forms\Components\TextInput::make('cnpj')->label('CNPJ'),
+                                Forms\Components\TextInput::make('região')->label('Região'),
+
+                                // ...
+                            ])
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

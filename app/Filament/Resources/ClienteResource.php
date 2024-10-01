@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ContratoResource\Pages;
-use App\Filament\Resources\ContratoResource\RelationManagers;
-use App\Models\Contrato;
+use App\Filament\Clusters\Empreendimentos;
+use App\Filament\Resources\ClienteResource\Pages;
+use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\Cliente;
+use App\Models\Empreendimento;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,17 +16,23 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ContratoResource extends Resource
+class ClienteResource extends Resource
 {
-    protected static ?string $model = Contrato::class;
+    protected static ?string $model = Cliente::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 //
+                Forms\Components\TextInput::make('nome')->label('Nome')->required(),
+                Forms\Components\TextInput::make('email')->label('Email')->required(),
+                Forms\Components\TextInput::make('senha')->label('Senha')->required(),
             ]);
     }
 
@@ -32,15 +41,8 @@ class ContratoResource extends Resource
         return $table
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('numero_do_contrato')->label('Número do contrato'),
-                Tables\Columns\TextColumn::make('nome_do_contratante')->label('Nome do contratante'),
-                Tables\Columns\TextColumn::make('data_de_inicio')->label('Data de inicio'),
-                Tables\Columns\TextColumn::make('data_de_termino')->label('Data de termino'),
-                Tables\Columns\TextColumn::make('valor_do_contrato')->label('Valor de contrato'),
-                Tables\Columns\TextColumn::make('data_de_emissão')->label('Data de emissão'),
-                Tables\Columns\TextColumn::make('empreendimento.nome_do_empreendimento')->label('Nome do empreendimento'),
-
-
+                Tables\Columns\TextColumn::make('name')->label('Nome'),
+                Tables\Columns\TextColumn::make('email')->label('Email'),
             ])
             ->filters([
                 //
@@ -65,9 +67,9 @@ class ContratoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListContratos::route('/'),
-            'create' => Pages\CreateContrato::route('/create'),
-            'edit' => Pages\EditContrato::route('/{record}/edit'),
+            'index' => Pages\ListCliente::route('/'),
+            'create' => Pages\CreateCliente::route('/create'),
+            'edit' => Pages\EditCliente::route('/{record}/edit'),
         ];
     }
 }

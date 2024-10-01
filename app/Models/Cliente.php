@@ -8,15 +8,19 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class Usuario  extends Authenticatable
+class Cliente  extends Authenticatable
 {
     use HasFactory;
     use HasUuids;
 
-    protected $fillable=['name','sobrenome','password','email','tipo'];
+    protected $fillable=['nome','sobrenome','senha','email','tipo','cnpj','cpf'];
 
     public function empreendimentos(){
         return $this->hasMany(Empreendimento::class);
+    }
+
+    public function empresas(){
+        return $this->hasMany(Empresa::class);
     }
 
 }

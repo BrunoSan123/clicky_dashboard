@@ -25,7 +25,11 @@ class Empreendimento extends Model
 
 
     public function usuario(){
-        return $this->belongsTo(User::class,'Usuario_id');
+        return $this->belongsTo(Cliente::class,'Usuario_id');
+    }
+
+    public function unidades(){
+        return $this->hasMany(Unidade::class);
     }
 
     public function contrato(){
