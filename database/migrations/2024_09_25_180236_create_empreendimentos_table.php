@@ -15,7 +15,10 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('nome_do_empreendimento');
             $table->string('tipo');
+            $table->string('público');
+            $table->string('status');
             $table->string('codigo');
+            $table->string('imagem');
             $table->uuid('Usuario_id');
             $table->uuid('Empresa_id')->nullable();
             $table->timestamps();

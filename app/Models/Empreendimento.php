@@ -11,7 +11,7 @@ class Empreendimento extends Model
     use HasFactory;
     use HasUuids;
 
-    protected $fillable=['nome_do_empreendimento','tipo','codigo','Usuario_id','Empresa_id'];
+    protected $fillable=['nome_do_empreendimento','tipo','codigo','Usuario_id','Empresa_id','público','status','imagem'];
 
     protected static function boot()
     {

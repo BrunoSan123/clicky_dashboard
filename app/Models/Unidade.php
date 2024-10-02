@@ -18,4 +18,8 @@ class Unidade extends Model
         return $this->belongsTo(Empreendimento::class,'Empreendimento_id');
     }
 
+    public function imoveis(){
+        return $this->hasMany(Imovel::class);
+    }
+
 }
