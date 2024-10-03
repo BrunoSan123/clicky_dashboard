@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('nome_da_empresa');
             $table->string('cnpj');
             $table->string('cep');
+            $table->string('bairro');
+            $table->string('uf');
+            $table->string('cidade');
             $table->string('endereço');
             $table->uuid('Usuario_id');
             $table->timestamps();

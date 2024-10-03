@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "blade-ui-kit/blade-ui-kit": "^0.6.2",
+        "brunocfalcao/blade-feather-icons": "^4.0",
         "davidhsianturi/blade-bootstrap-icons": "^1.5",
         "faisal50x/blade-ionicons": "^1.0",
         "filament/filament": "^3.2",

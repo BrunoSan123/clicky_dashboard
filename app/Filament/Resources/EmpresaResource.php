@@ -6,13 +6,19 @@ use App\Filament\Resources;
 use App\Filament\Resources\EmpresaResource\Pages;
 use App\Filament\Resources\EmpresaResource\RelationManagers;
 use App\Models\Empresa;
+use Closure;
+use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Http;
 
 class EmpresaResource extends Resource
 {
@@ -26,9 +32,57 @@ class EmpresaResource extends Resource
             ->schema([
                 //
                 Forms\Components\TextInput::make('nome_da_empresa')->label('Nome da empresa')->required(),
-                Forms\Components\TextInput::make('cnpj')->label('CNPJ')->required(),
-                Forms\Components\TextInput::make('cep')->label('CEP')->required(),
+                Forms\Components\TextInput::make('cnpj')->label('CNPJ')
+                ->suffixAction(fn($state,Set $set)=>
+                    Action::make('search-action')
+                    ->icon('feathericon-search')
+                    ->action(function() use($state,$set){
+                        if(blank($state)){
+                            Notification::make()->title('Digite o CNPJ para validar')->danger()->send();
+                            return;
+                         }
+                         try {
+                            $cnpjData=Http::get("https://api-publica.speedio.com.br/buscarcnpj?cnpj={$state}")->throw()->json();
+                            if($cnpjData['error']){
+                                Notification::make()->title('CNPJ invalido')->danger()->send();
+                            }else{
+                                Notification::make()->title('CNPJ validado')->success()->send(); 
+                            }
+                         } catch (\Throwable $th) {
+                            Notification::make()->title('CNPJ invalido')->danger();
+                            return;
+                         }
+                    })
+                )
+                ->required(),
+                Forms\Components\TextInput::make('cep')->label('CEP')
+                ->suffixAction(fn($state, Set $set)=>
+                Action::make('search-action')
+                ->icon('feathericon-search')
+                ->action(function() use($state,$set){
+                    if(blank($state)){
+                       Notification::make()->title('Digite o CEP para buscar o endereço')->danger()->send();
+                       return;
+                    }
+                    try {
+                        $cepData=Http::get("https://viacep.com.br/ws/{$state}/json/")->throw()->json();
+                        //dd($cepData);
+                    } catch (\Throwable $th) {
+                        Notification::make()->title('Erro ao buscar o endereço')->danger();
+                        return;
+                    }
+
+                    $set('bairro', $cepData['bairro'] ?? null);
+                    $set('endereço', $cepData['logradouro'] ?? null);
+                    $set('uf', $cepData['estado'] ?? null);
+                    $set('cidade', $cepData['localidade'] ?? null);
+                })
+            )
+                ->required(),
                 Forms\Components\TextInput::make('endereço')->label('Endereço')->required(),
+                Forms\Components\TextInput::make('bairro')->label('Bairro')->required(),
+                Forms\Components\TextInput::make('uf')->label('Estado')->required(),
+                Forms\Components\TextInput::make('cidade')->label('Cidade')->required(),
                 
             ]);
     }
@@ -42,6 +96,8 @@ class EmpresaResource extends Resource
                 Tables\Columns\TextColumn::make('cnpj')->label('CNPJ'),
                 Tables\Columns\TextColumn::make('cep')->label('CEP'),
                 Tables\Columns\TextColumn::make('endereço')->label('Endereço'),
+                Tables\Columns\TextColumn::make('cidade')->label('Ciodade'),
+                Tables\Columns\TextColumn::make('estado')->label('Estado'),
                 Tables\Columns\TextColumn::make('usuario.name')->label('Usuário vinculado')
 
             ])
