@@ -26,7 +26,7 @@ class EmpreendimentoResource extends Resource
 {
     protected static ?string $model = Empreendimento::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'bi-lightning-charge';
     protected static ?string $cluster = Empreendimentos::class;
 
     public static function form(Form $form): Form
@@ -42,10 +42,6 @@ class EmpreendimentoResource extends Resource
                 ->label('Selecione uma Empresa')
                 ->options(Empresa::all()->pluck('nome_da_empresa', 'id'))
                 ->required(),
-                Forms\Components\Select::make('status')
-                ->label('Qual o status?')
-                ->options(['status_verde','status_vermelho','status_amarelo'])
-                ->required(),
 
             ]);
     }
@@ -54,14 +50,18 @@ class EmpreendimentoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('imagem')->label('Imagem')->circular(),
-                Tables\Columns\TextColumn::make('nome_do_empreendimento')->label('Nome do Empreendimento'),
-                Tables\Columns\TextColumn::make('nome_do_empreendimento')->label('Nome do Empreendimento'),
+                Tables\Columns\ImageColumn::make('imagem')->label('Imagem'),
+                Tables\Columns\TextColumn::make('nome_do_empreendimento')->label('Nome')->searchable(),
                 Tables\Columns\TextColumn::make('público')->label('Público'),
-                Tables\Columns\IconColumn::make('status')    
-                ->boolean()
-                ->trueColor('info')
-                ->falseColor('warning'),
+                Tables\Columns\IconColumn::make('status')
+                ->label('Status')
+                ->boolean() // Define que a coluna é do tipo booleano
+                ->trueIcon('heroicon-o-check-circle')  // Ícone de check para verdadeiro
+                ->falseIcon('heroicon-o-x-circle')     // Ícone de X para falso
+                ->colors([
+                    'success' => 'success',  // Cor verde para verdadeiro
+                    'danger' => 'danger',    // Cor vermelha para falso
+                ]),
                 Tables\Columns\TextColumn::make('empresa.nome_da_empresa')->label('Empresa'),
             ])
             ->filters([
@@ -69,7 +69,7 @@ class EmpreendimentoResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('verUnidades')
-                ->label('Ver Unidades')
+                ->label('Und Disponíveis')
                 ->modalHeading('Unidades Cadastradas')
                 ->form([
                     Forms\Components\Repeater::make('unidades_repeater')
@@ -129,32 +129,6 @@ class EmpreendimentoResource extends Resource
                     $contrato->save();
                 }),
     
-                Tables\Actions\Action::make('Vincular unidades')
-                ->form([
-                    Repeater::make('unidades')
-                            ->schema([
-                                Forms\Components\TextInput::make('nome_da_unidade')->label('Nome da unidade'),
-                                Forms\Components\TextInput::make('quantidade')->label('Quantidade')->numeric(),
-                                Forms\Components\TextInput::make('cnpj')->label('CNPJ'),
-                                Forms\Components\TextInput::make('região')->label('Região'),
-
-                                // ...
-                            ])
-                ])->action(function (array $data, $record) {
-                    // Verificar se existem dados de unidades
-                    if (isset($data['unidades'])) {
-                        // Iterar por cada unidade e criar o registro utilizando o modelo Unidade
-                        foreach ($data['unidades'] as $unidadeData) {
-                            Unidade::create([
-                                'nome_da_unidade' => $unidadeData['nome_da_unidade'],
-                                'quantidade' => $unidadeData['quantidade'],
-                                'cnpj' => $unidadeData['cnpj'],
-                                'região' => $unidadeData['região'],
-                                'Empreendimento_id' => $record->id, // Relacionar com o empreendimento atual
-                            ]);
-                        }
-                    }
-                })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

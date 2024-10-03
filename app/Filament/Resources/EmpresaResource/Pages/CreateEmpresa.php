@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Clusters\Empreendimentos\EmpresaResource\Pages;
+namespace App\Filament\Resources\EmpresaResource\Pages;
 
-use App\Filament\Clusters\Empreendimentos\EmpresaResource;
+use App\Filament\Resources\EmpresaResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;

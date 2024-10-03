@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Clusters\Empreendimentos\UnidadeResource\Pages;
+namespace App\Filament\Clusters\Empreendimentos\ImovelResource\Pages;
 
+use App\Filament\Clusters\Empreendimentos\ImovelResource;
 use App\Filament\Clusters\Empreendimentos\Resources\EmpreendimentoResource\Widgets\Empreendimento_status;
-use App\Filament\Clusters\Empreendimentos\UnidadeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListUnidades extends ListRecords
+class ListImovels extends ListRecords
 {
-    protected static string $resource = UnidadeResource::class;
+    protected static string $resource = ImovelResource::class;
 
     protected function getHeaderActions(): array
     {

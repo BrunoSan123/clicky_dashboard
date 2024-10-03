@@ -3,8 +3,7 @@
 namespace App\Filament\Clusters\Empreendimentos\EmpreendimentoResource\Pages;
 
 use App\Filament\Clusters\Empreendimentos\EmpreendimentoResource;
-use App\Filament\Widgets\Contratos_Status;
-use App\Livewire\Empreendimento_Status;
+use App\Filament\Clusters\Empreendimentos\Resources\EmpreendimentoResource\Widgets\Empreendimento_status;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -19,9 +18,11 @@ class ListEmpreendimentos extends ListRecords
         ];
     }
 
+
+
     protected function getHeaderWidgets():array{
         return[
-            Empreendimento_Status::class,
+            Empreendimento_status::class
         ];
     }
 

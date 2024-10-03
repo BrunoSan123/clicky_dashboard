@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Filament\Clusters\Empreendimentos;
+namespace App\Filament\Resources;
 
-use App\Filament\Clusters\Empreendimentos;
-use App\Filament\Clusters\Empreendimentos\ContratoResource\Pages;
+use App\Filament\Resources\ContratoResource\Pages;
 use App\Models\Contrato;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -18,7 +17,6 @@ class ContratoResource extends Resource
     protected static ?string $model = Contrato::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $cluster = Empreendimentos::class;
 
     public static function form(Form $form): Form
     {

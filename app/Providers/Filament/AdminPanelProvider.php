@@ -40,7 +40,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
-                Empreendimento_Status::class
+                //Empreendimento_Status::class
             ])
             ->middleware([
                 EncryptCookies::class,

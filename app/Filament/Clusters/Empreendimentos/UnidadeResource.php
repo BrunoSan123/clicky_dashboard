@@ -5,6 +5,7 @@ namespace App\Filament\Clusters\Empreendimentos;
 use App\Filament\Clusters\Empreendimentos;
 use App\Filament\Clusters\Empreendimentos\UnidadeResource\Pages;
 use App\Filament\Clusters\Empreendimentos\Resources\UnidadeResource\RelationManagers;
+use App\Models\Empreendimento;
 use App\Models\Unidade;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -18,7 +19,7 @@ class UnidadeResource extends Resource
 {
     protected static ?string $model = Unidade::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     protected static ?string $cluster = Empreendimentos::class;
 
@@ -27,6 +28,14 @@ class UnidadeResource extends Resource
         return $form
             ->schema([
                 //
+                Forms\Components\TextInput::make('nome_da_unidade')->label('Nome')->required(),
+                Forms\Components\TextInput::make('quantidade')->label('Quantidade')->required()->numeric(),
+                Forms\Components\TextInput::make('cnpj')->label('CNPJ')->required(),
+                Forms\Components\TextInput::make('região')->label('Região')->required(),
+                Forms\Components\Select::make('Empreendimento_id')
+                ->label('Selecione um empreendimento')
+                ->options(Empreendimento::all()->pluck('nome_do_empreendimento', 'id'))
+                ->required(),
             ]);
     }
 
@@ -35,6 +44,13 @@ class UnidadeResource extends Resource
         return $table
             ->columns([
                 //
+                Tables\Columns\TextColumn::make('nome_da_unidade')->label('Nome')->searchable(),
+                Tables\Columns\TextColumn::make('quantidade')->label('Quatidade')->searchable(),
+                Tables\Columns\TextColumn::make('cnpj')->label('CNPJ')->searchable(),
+                Tables\Columns\TextColumn::make('região')->label('Região'),
+                Tables\Columns\TextColumn::make('empreendimento.nome_do_empreendimento')->label('Empreendimento')->searchable(),
+
+
             ])
             ->filters([
                 //
