@@ -3,8 +3,9 @@
 namespace App\Filament\Clusters\Empreendimentos;
 
 use App\Filament\Clusters\Empreendimentos;
-use App\Filament\Clusters\Empreendimentos\ContratoResource\Pages;
-use App\Models\Contrato;
+use App\Filament\Clusters\Empreendimentos\ImovelResource\Pages;
+use App\Filament\Clusters\Empreendimentos\Resources\ImovelResource\RelationManagers;
+use App\Models\Imovel;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,11 +14,12 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ContratoResource extends Resource
+class ImovelResource extends Resource
 {
-    protected static ?string $model = Contrato::class;
+    protected static ?string $model = Imovel::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'ionicon-business-outline';
+
     protected static ?string $cluster = Empreendimentos::class;
 
     public static function form(Form $form): Form
@@ -33,15 +35,6 @@ class ContratoResource extends Resource
         return $table
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('numero_do_contrato')->label('Número do contrato'),
-                Tables\Columns\TextColumn::make('nome_do_contratante')->label('Nome do contratante'),
-                Tables\Columns\TextColumn::make('data_de_inicio')->label('Data de inicio'),
-                Tables\Columns\TextColumn::make('data_de_termino')->label('Data de termino'),
-                Tables\Columns\TextColumn::make('valor_do_contrato')->label('Valor de contrato'),
-                Tables\Columns\TextColumn::make('data_de_emissão')->label('Data de emissão'),
-                Tables\Columns\TextColumn::make('empreendimento.nome_do_empreendimento')->label('Nome do empreendimento'),
-
-
             ])
             ->filters([
                 //
@@ -66,9 +59,9 @@ class ContratoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListContratos::route('/'),
-            'create' => Pages\CreateContrato::route('/create'),
-            'edit' => Pages\EditContrato::route('/{record}/edit'),
+            'index' => Pages\ListImovels::route('/'),
+            'create' => Pages\CreateImovel::route('/create'),
+            'edit' => Pages\EditImovel::route('/{record}/edit'),
         ];
     }
 }

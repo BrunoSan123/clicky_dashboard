@@ -12,7 +12,7 @@ class Empresa extends Model
     use HasFactory;
     use HasUuids;
 
-    protected $fillable=['nome_da_empresa','cnpj','cep','endereço','Usuario_id'];
+    protected $fillable=['nome_da_empresa','cnpj','cep','endereço','Usuario_id','bairro','uf','cidade'];
 
     public function empreendimentos(){
         return $this->hasMany(Empreendimento::class);

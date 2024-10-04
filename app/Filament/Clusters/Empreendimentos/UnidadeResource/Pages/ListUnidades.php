@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Clusters\Empreendimentos\EmpreendimentoResource\Pages;
+namespace App\Filament\Clusters\Empreendimentos\UnidadeResource\Pages;
 
-use App\Filament\Clusters\Empreendimentos\EmpreendimentoResource;
 use App\Filament\Clusters\Empreendimentos\Resources\EmpreendimentoResource\Widgets\Empreendimento_status;
+use App\Filament\Clusters\Empreendimentos\UnidadeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListEmpreendimentos extends ListRecords
+class ListUnidades extends ListRecords
 {
-    protected static string $resource = EmpreendimentoResource::class;
+    protected static string $resource = UnidadeResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -17,8 +17,6 @@ class ListEmpreendimentos extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
-
-
 
     protected function getHeaderWidgets():array{
         return[
@@ -31,5 +29,4 @@ class ListEmpreendimentos extends ListRecords
             
         ];
     }
-
 }

@@ -4,9 +4,11 @@ namespace App\Filament\Clusters\Empreendimentos;
 
 use App\Filament\Clusters\Empreendimentos;
 use App\Filament\Clusters\Empreendimentos\EmpreendimentoResource\Pages;
+use App\Filament\Widgets\Contratos_Status;
 use App\Models\Empreendimento;
 use App\Models\Empresa;
 use App\Models\Contrato;
+use App\Models\Unidade;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -24,7 +26,7 @@ class EmpreendimentoResource extends Resource
 {
     protected static ?string $model = Empreendimento::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'bi-lightning-charge';
     protected static ?string $cluster = Empreendimentos::class;
 
     public static function form(Form $form): Form
@@ -34,6 +36,8 @@ class EmpreendimentoResource extends Resource
                 //
                 Forms\Components\TextInput::make('nome_do_empreendimento')->label('Nome do empreendimento'),
                 Forms\Components\TextInput::make('tipo')->label('Tipo'),
+                Forms\Components\TextInput::make('público')->label('Público'),
+                Forms\Components\FileUpload::make('imagem')->avatar()->directory('storage'),
                 Forms\Components\Select::make('Empresa_id')
                 ->label('Selecione uma Empresa')
                 ->options(Empresa::all()->pluck('nome_da_empresa', 'id'))
@@ -46,19 +50,62 @@ class EmpreendimentoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('Id'),
-                Tables\Columns\TextColumn::make('nome_do_empreendimento')->label('Nome do Empreendimento'),
-                Tables\Columns\TextColumn::make('tipo')->label('Tipo'),
-                Tables\Columns\TextColumn::make('usuario.name')->label('Usuário'),
+                Tables\Columns\ImageColumn::make('imagem')->label('Imagem'),
+                Tables\Columns\TextColumn::make('nome_do_empreendimento')->label('Nome')->searchable(),
+                Tables\Columns\TextColumn::make('público')->label('Público'),
+                Tables\Columns\IconColumn::make('status')
+                ->label('Status')
+                ->boolean() // Define que a coluna é do tipo booleano
+                ->trueIcon('heroicon-o-check-circle')  // Ícone de check para verdadeiro
+                ->falseIcon('heroicon-o-x-circle')     // Ícone de X para falso
+                ->colors([
+                    'success' => 'success',  // Cor verde para verdadeiro
+                    'danger' => 'danger',    // Cor vermelha para falso
+                ]),
                 Tables\Columns\TextColumn::make('empresa.nome_da_empresa')->label('Empresa'),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('verUnidades')
+                ->label('Und Disponíveis')
+                ->modalHeading('Unidades Cadastradas')
+                ->form([
+                    Forms\Components\Repeater::make('unidades_repeater')
+                    ->label('Unidades')
+                    ->schema(function ($record) {
+                        $unidades = $record->unidades; // Obtém as unidades associadas ao empreendimento
+
+                        $schemas = [];
+
+                        foreach ($unidades as $unidade) {
+                            $schemas[] = Forms\Components\Card::make() // Cria um card para cada unidade
+                                ->schema([
+                                    Forms\Components\TextInput::make("unidade_{$unidade->id}_nome")
+                                        ->label('Nome da Unidade')
+                                        ->default($unidade->nome_da_unidade)
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make("unidade_{$unidade->id}_quantidade")
+                                        ->label('Quantidade')
+                                        ->default($unidade->quantidade)
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make("unidade_{$unidade->id}_cnpj")
+                                        ->label('CNPJ')
+                                        ->default($unidade->cnpj)
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make("unidade_{$unidade->id}_regiao")
+                                        ->label('Região')
+                                        ->default($unidade->região)
+                                        ->disabled(),
+                                ]);
+                        }
+
+                        return $schemas;
+                    }),
+                    ]),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('Gerar Contrato')
-                ->button()
                 ->form([
                     Forms\Components\TextInput::make('nome_do_contratante')->label('Nome do contrato'),
                     Forms\Components\DatePicker::make('data_de_inicio')->label('Data de inicio'),
@@ -81,19 +128,7 @@ class EmpreendimentoResource extends Resource
                     $contrato->data_de_emissão = $data['data_de_emissão'];
                     $contrato->save();
                 }),
-                Tables\Actions\Action::make('Vincular unidades')
-                ->button()
-                ->form([
-                    Repeater::make('unidades')
-                            ->schema([
-                                Forms\Components\TextInput::make('nome_da_unidade')->label('Nome da unidade'),
-                                Forms\Components\TextInput::make('quantidade')->label('Quantidade')->numeric(),
-                                Forms\Components\TextInput::make('cnpj')->label('CNPJ'),
-                                Forms\Components\TextInput::make('região')->label('Região'),
-
-                                // ...
-                            ])
-                ])
+    
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

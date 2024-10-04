@@ -16,10 +16,13 @@ return new class extends Migration
             $table->string('nome_da_empresa');
             $table->string('cnpj');
             $table->string('cep');
+            $table->string('bairro');
+            $table->string('uf');
+            $table->string('cidade');
             $table->string('endereço');
             $table->uuid('Usuario_id');
             $table->timestamps();
-            //$table->foreign('Usuario_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('Usuario_id')->references('id')->on('clientes')->onDelete('cascade');
         });
 
         Schema::table('empreendimentos',function(Blueprint $table){
