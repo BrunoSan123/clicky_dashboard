@@ -11,10 +11,9 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    use HasUuids;
 
     /**
      * The attributes that are mass assignable.
@@ -60,9 +59,9 @@ class User extends Authenticatable implements FilamentUser
     }
 
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true;
-    }
+    // public function canAccessPanel(Panel $panel): bool
+    // {
+    //     return true;
+    // }
 
 }

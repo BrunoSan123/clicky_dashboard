@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('endereço');
             $table->uuid('Usuario_id');
             $table->timestamps();
-            $table->foreign('Usuario_id')->references('id')->on('users')->onDelete('cascade');
+            //$table->foreign('Usuario_id')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::table('empreendimentos',function(Blueprint $table){

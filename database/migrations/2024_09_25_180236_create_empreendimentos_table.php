@@ -19,7 +19,7 @@ return new class extends Migration
             $table->uuid('Usuario_id');
             $table->uuid('Empresa_id')->nullable();
             $table->timestamps();
-            $table->foreign('Usuario_id')->references('id')->on('users')->onDelete('cascade');
+            //$table->foreign('Usuario_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
