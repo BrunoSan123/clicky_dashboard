@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources;
 use App\Filament\Resources\EmpresaResource\Pages;
 use App\Filament\Resources\EmpresaResource\RelationManagers;
+use App\Models\Cliente;
 use App\Models\Empresa;
 use Closure;
 use Filament\Facades\Filament;
@@ -49,7 +50,7 @@ class EmpresaResource extends Resource
                                 Notification::make()->title('CNPJ validado')->success()->send(); 
                             }
                          } catch (\Throwable $th) {
-                            Notification::make()->title('CNPJ invalido')->danger();
+                            Notification::make()->title('CNPJ invalido')->danger()->send();
                             return;
                          }
                     })
@@ -83,6 +84,10 @@ class EmpresaResource extends Resource
                 Forms\Components\TextInput::make('bairro')->label('Bairro')->required(),
                 Forms\Components\TextInput::make('uf')->label('Estado')->required(),
                 Forms\Components\TextInput::make('cidade')->label('Cidade')->required(),
+                Forms\Components\Select::make('Usuario_id')
+                ->label('Selecione um usuário')
+                ->options(Cliente::all()->pluck('nome', 'id'))
+                ->required(),
                 
             ]);
     }
@@ -96,9 +101,9 @@ class EmpresaResource extends Resource
                 Tables\Columns\TextColumn::make('cnpj')->label('CNPJ'),
                 Tables\Columns\TextColumn::make('cep')->label('CEP'),
                 Tables\Columns\TextColumn::make('endereço')->label('Endereço'),
-                Tables\Columns\TextColumn::make('cidade')->label('Ciodade'),
-                Tables\Columns\TextColumn::make('estado')->label('Estado'),
-                Tables\Columns\TextColumn::make('usuario.name')->label('Usuário vinculado')
+                Tables\Columns\TextColumn::make('cidade')->label('Cidade'),
+                Tables\Columns\TextColumn::make('uf')->label('Estado'),
+                Tables\Columns\TextColumn::make('usuario.nome')->label('Usuário vinculado')
 
             ])
             ->filters([

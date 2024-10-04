@@ -31,8 +31,11 @@ class ClienteResource extends Resource
             ->schema([
                 //
                 Forms\Components\TextInput::make('nome')->label('Nome')->required(),
+                Forms\Components\TextInput::make('sobrenome')->label('Sobrenome')->required(),
                 Forms\Components\TextInput::make('email')->label('Email')->required(),
-                Forms\Components\TextInput::make('senha')->label('Senha')->required(),
+                Forms\Components\TextInput::make('senha')->label('Senha')->password()->required(),
+                Forms\Components\TextInput::make('cpf')->label('CPF'),
+                //Forms\Components\TextInput::make('cnpj')->label('CNPJ')->required(),
             ]);
     }
 
@@ -41,8 +44,10 @@ class ClienteResource extends Resource
         return $table
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('name')->label('Nome'),
+                Tables\Columns\TextColumn::make('nome')->label('Nome'),
+                Tables\Columns\TextColumn::make('sobrenome')->label('Sobrenome'),
                 Tables\Columns\TextColumn::make('email')->label('Email'),
+                //Tables\Columns\TextColumn::make('cnpj')->label('CNPJ'),
             ])
             ->filters([
                 //
