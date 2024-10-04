@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('data_de_inicio');
             $table->string('data_de_termino');
             $table->float('valor_do_contrato');
+            $table->string('status');
+            $table->float('valor_da_parcela');
             $table->string('data_de_emissão');
             $table->uuid('Empreendimento_id');
             $table->foreign('Empreendimento_id')->references('id')->on('empreendimentos')->onDelete('cascade');

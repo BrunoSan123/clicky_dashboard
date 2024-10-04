@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Empreendimento extends Model
+class Empreendimento extends Model implements HasMedia
 {
     use HasFactory;
     use HasUuids;
+    use InteractsWithMedia;
 
     protected $fillable=['nome_do_empreendimento','tipo','codigo','Usuario_id','Empresa_id','público','status','imagem'];
 

@@ -37,7 +37,7 @@ class EmpreendimentoResource extends Resource
                 Forms\Components\TextInput::make('nome_do_empreendimento')->label('Nome do empreendimento'),
                 Forms\Components\TextInput::make('tipo')->label('Tipo'),
                 Forms\Components\TextInput::make('público')->label('Público'),
-                Forms\Components\FileUpload::make('imagem')->avatar(),
+                Forms\Components\FileUpload::make('imagem')->avatar()->directory('storage'),
                 Forms\Components\Select::make('Empresa_id')
                 ->label('Selecione uma Empresa')
                 ->options(Empresa::all()->pluck('nome_da_empresa', 'id'))
