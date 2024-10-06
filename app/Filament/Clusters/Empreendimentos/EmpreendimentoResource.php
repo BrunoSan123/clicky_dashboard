@@ -5,6 +5,7 @@ namespace App\Filament\Clusters\Empreendimentos;
 use App\Filament\Clusters\Empreendimentos;
 use App\Filament\Clusters\Empreendimentos\EmpreendimentoResource\Pages;
 use App\Filament\Widgets\Contratos_Status;
+use App\Models\Cliente;
 use App\Models\Empreendimento;
 use App\Models\Empresa;
 use App\Models\Contrato;
@@ -42,6 +43,11 @@ class EmpreendimentoResource extends Resource
                 ->label('Selecione uma Empresa')
                 ->options(Empresa::all()->pluck('nome_da_empresa', 'id'))
                 ->required(),
+                Forms\Components\Select::make('Usuario_id')
+                ->label('Selecione o usuário')
+                ->options(Cliente::all()->pluck('nome','id'))
+                ->required()
+                
 
             ]);
     }

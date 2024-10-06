@@ -13,12 +13,12 @@ class Contrato extends Model
     use HasFactory;
     use HasUuids;
 
-    protected $fillable=['numero_do_contrato','nome_do_contratante','data_de_inicio','data_de_termino','valor_do_contrato','data_de_emissão','Empreendimento_id','status','valor_da_parcela'];
+    protected $fillable=['numero_do_contrato','nome_do_contratante','data_de_inicio','data_de_termino','valor_do_contrato','data_de_emissão','Empreendimento_id','status','valor_da_parcela','Unidade_id'];
 
-    protected $casts = [
-        'valor_do_contrato' => MoneyCast::class,
-        'valor_da_parcela'=>MoneyCast::class,
-    ];
+    // protected $casts = [
+    //     'valor_do_contrato' => MoneyCast::class,
+    //     'valor_da_parcela'=>MoneyCast::class,
+    // ];
 
     protected static function boot()
     {
@@ -34,5 +34,13 @@ class Contrato extends Model
      
     public function empreendimento(){
         return $this->belongsTo(Empreendimento::class,'Empreendimento_id');
+    }
+
+    public function unidade(){
+        return $this->belongsTo(Unidade::class,'Unidade_id');
+    }
+
+    public function pagamentos(){
+        return $this->hasMany(Pagamento::class);
     }
 }

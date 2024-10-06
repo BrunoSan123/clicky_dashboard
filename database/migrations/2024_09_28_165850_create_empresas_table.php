@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('uf');
             $table->string('cidade');
             $table->string('endereço');
+            $table->string('nome_fantasia')->nullable();     
+            $table->string('razao_social')->nullable();     
+            $table->string('status')->nullable();
+            $table->date('data_abertura')->nullable(); 
             $table->uuid('Usuario_id');
             $table->timestamps();
             $table->foreign('Usuario_id')->references('id')->on('clientes')->onDelete('cascade');

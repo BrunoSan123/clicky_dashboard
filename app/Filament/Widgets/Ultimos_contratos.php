@@ -9,6 +9,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class Ultimos_contratos extends BaseWidget
 {
+    protected static ?int $sort = 4;
     public function table(Table $table): Table
     {
         return $table

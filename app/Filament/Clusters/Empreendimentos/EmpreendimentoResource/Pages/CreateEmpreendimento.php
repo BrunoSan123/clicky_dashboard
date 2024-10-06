@@ -15,7 +15,6 @@ class CreateEmpreendimento extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // Atribui o ID do usuário autenticado ao campo Usuario_id
-        $data['Usuario_id'] = Auth::id();
 
         return $data;
     }

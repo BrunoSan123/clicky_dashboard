@@ -21,6 +21,14 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('Empreendimento_id')->references('id')->on('empreendimentos')->onDelete('cascade');
         });
+
+        Schema::table('empreendimentos',function(Blueprint $table){
+            $table->foreign('Unidade_id')->references('id')->on('unidades')->onDelete('cascade');
+        });
+
+        Schema::table('contratos',function(Blueprint $table){
+            $table->foreign('Unidade_id')->references('id')->on('unidades')->onDelete('cascade');
+        });
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Filament\Resources\ContratoResource\Pages\ListContratos;
 use App\Models\Cliente;
 use App\Models\Contrato;
 use App\Models\Empreendimento;
+use App\Models\Pagamento;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Carbon\Carbon;
@@ -66,7 +67,7 @@ class Contratos_Status extends BaseWidget
             ->chart($clientePorDia)
             ->color('success'),
 
-            Stat::make('Empreendimentos', count(Empreendimento::all()))
+            Stat::make('Novos Pagamentos', (count(Pagamento::all())>1000)?count(Pagamento::all()).'mil':count(Pagamento::all()))
             ->description('Adições recentes')
             ->descriptionIcon('heroicon-m-arrow-trending-up')
             ->chart($contratosPorDia)

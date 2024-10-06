@@ -5,8 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ContratoResource\Pages;
 use App\Models\Contrato;
 use App\Models\Empreendimento;
+use App\Models\Unidade;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -29,6 +32,17 @@ class ContratoResource extends Resource
                 Forms\Components\TextInput::make('nome_do_contratante')->label('Nome do contratante')->required(),
                 Forms\Components\DatePicker::make('data_de_inicio')->label('Data de inicio')->required(),
                 Forms\Components\DatePicker::make('data_de_termino')->label('Data de termino')->required(),
+                Forms\Components\Select::make('Unidade_id')
+                ->label('Selecione uma Unidade')
+                ->options(function ($get) {
+                    $empreendimentoId = $get('Empreendimento_id'); // Obtém o ID do empreendimento selecionado
+                    if ($empreendimentoId) {
+                        // Retorna as unidades do empreendimento selecionado
+                        return Unidade::where('empreendimento_id', $empreendimentoId)
+                            ->pluck('nome_da_unidade', 'id');
+                    }
+                    return []; // Se não houver empreendimento selecionado, retorna vazio
+                }),
                 Money::make('valor_do_contrato')
                 ->label('Valor do contrato')
                 ->currency(BRL::class)
@@ -40,7 +54,17 @@ class ContratoResource extends Resource
                 Forms\Components\Select::make('Empreendimento_id')
                 ->label('Selecione um Empreendimento')
                 ->options(Empreendimento::all()->pluck('nome_do_empreendimento', 'id'))
-                ->required(),
+                ->required()
+                ->reactive()
+                ->afterStateUpdated(function(Set $set, $state){
+                    if($state){
+                        $empreendimento = Empreendimento::find($state);
+                        if($empreendimento){
+                            $set('nome_do_contratante',$empreendimento->usuario->nome);
+                        }
+                    }
+
+                })
 
             ]);
     }

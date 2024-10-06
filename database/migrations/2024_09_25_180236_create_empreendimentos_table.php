@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('imagem');
             $table->uuid('Usuario_id');
             $table->uuid('Empresa_id')->nullable();
+            $table->uuid('Unidade_id')->nullable();
             $table->timestamps();
-            //$table->foreign('Usuario_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('Usuario_id')->references('id')->on('clientes')->onDelete('cascade');
         });
     }
 

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->float('valor_da_parcela');
             $table->string('data_de_emissão');
             $table->uuid('Empreendimento_id');
+            $table->uuid('Unidade_id');
             $table->foreign('Empreendimento_id')->references('id')->on('empreendimentos')->onDelete('cascade');
 
             $table->timestamps();

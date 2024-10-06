@@ -9,7 +9,10 @@ use App\Models\Cliente;
 use App\Models\Empreendimento;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -20,7 +23,7 @@ class ClienteResource extends Resource
 {
     protected static ?string $model = Cliente::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'fluentui-people-add-16-o';
 
 
 
@@ -30,12 +33,41 @@ class ClienteResource extends Resource
         return $form
             ->schema([
                 //
-                Forms\Components\TextInput::make('nome')->label('Nome')->required(),
-                Forms\Components\TextInput::make('sobrenome')->label('Sobrenome')->required(),
-                Forms\Components\TextInput::make('email')->label('Email')->required(),
-                Forms\Components\TextInput::make('senha')->label('Senha')->password()->required(),
-                Forms\Components\TextInput::make('cpf')->label('CPF'),
-                //Forms\Components\TextInput::make('cnpj')->label('CNPJ')->required(),
+                Grid::make(2)
+                ->schema([
+                    // Primeiro Card
+                    Card::make()
+                        ->schema([
+                            Grid::make(2)->schema([
+                                Forms\Components\TextInput::make('nome')
+                                ->label('Nome')
+                                ->required(),
+                                Forms\Components\TextInput::make('email')
+                                ->label('Email')
+                                ->required(), 
+                            ])->columnSpan(1),
+                            Grid::make(2)->schema([
+                              Forms\Components\TextInput::make('sobrenome')
+                            ->label('Sobrenome')
+                            ->required(),
+                            Forms\Components\TextInput::make('senha')
+                            ->label('Senha')
+                            ->password()
+                            ->required(),
+                            Forms\Components\TextInput::make('cpf')
+                            ->label('CPF'),  
+                            ])->columnSpan(1),
+
+                        ])->columnSpan(1),
+
+                    // Segundo Card
+                    Card::make()
+                    ->schema([
+                        
+                         // Apenas para visualização
+                    ])->columnSpan(1)->visibleOn('edit')
+                ]), 
+
             ]);
     }
 
