@@ -15,6 +15,13 @@ class Cliente  extends Authenticatable
 
     protected $fillable=['nome','sobrenome','senha','email','tipo','cnpj','cpf'];
 
+    protected function casts(): array
+    {
+        return [
+            'senha' => 'hashed',
+        ];
+    }
+
     public function empreendimentos(){
         return $this->hasMany(Empreendimento::class);
     }
