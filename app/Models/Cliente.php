@@ -13,7 +13,7 @@ class Cliente  extends Authenticatable
     use HasFactory;
     use HasUuids;
 
-    protected $fillable=['nome','sobrenome','senha','email','tipo','cnpj','cpf'];
+    protected $fillable=['nome','sobrenome','senha','email','tipo','cnpj','cpf','cidade','rua','pais'];
 
     protected function casts(): array
     {
@@ -28,6 +28,10 @@ class Cliente  extends Authenticatable
 
     public function empresas(){
         return $this->hasMany(Empresa::class);
+    }
+
+    public function endereços(){
+        return $this->hasMany(Endereco::class);
     }
 
 }

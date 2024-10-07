@@ -26,9 +26,11 @@ class EmpresaResource extends Resource
     protected static ?string $model = Empresa::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    public $apiStatus=null;
 
     public static function form(Form $form): Form
     {
+        
         return $form
             ->schema([
                 //
@@ -44,13 +46,30 @@ class EmpresaResource extends Resource
                          }
                          try {
                             $cnpjData=Http::get("https://api-publica.speedio.com.br/buscarcnpj?cnpj={$state}")->throw()->json();
-                            if($cnpjData['error']){
+                            if(isset($cnpjData['error'])){
                                 Notification::make()->title('CNPJ invalido')->danger()->send();
                             }else{
-                                Notification::make()->title('CNPJ validado')->success()->send(); 
+                                //dd($cnpjData['STATUS']!='ATIVA');
+                                if($cnpjData['STATUS']!='ATIVA'){
+                                    Notification::make()->title('Ação não permitida. O status precisa ser ativo.')->danger()->send();
+                                    $set('apiStatus','inativa');
+                                    return; // Evita que o formulário seja enviado
+                                    
+                                
+                                }else{
+                                    $set('nome_fantasia',$cnpjData['NOME FANTASIA']);
+                                    $set('razao_social',$cnpjData['RAZAO SOCIAL']);
+                                    $set('status',$cnpjData['STATUS']);
+                                    $set('data_abertura',$cnpjData['DATA ABERTURA']);
+                                    Notification::make()->title('CNPJ validado')->success()->send();
+                                    
+                                }
+                                
+
                             }
                          } catch (\Throwable $th) {
-                            Notification::make()->title('CNPJ invalido')->danger()->send();
+                            dd($th->getMessage());
+                            Notification::make()->title('Erro na requisição')->danger()->send();
                             return;
                          }
                     })
@@ -84,6 +103,11 @@ class EmpresaResource extends Resource
                 Forms\Components\TextInput::make('bairro')->label('Bairro')->required(),
                 Forms\Components\TextInput::make('uf')->label('Estado')->required(),
                 Forms\Components\TextInput::make('cidade')->label('Cidade')->required(),
+                Forms\Components\TextInput::make('nome_fantasia')->label('Nome Fantasia')->required(),
+                Forms\Components\TextInput::make('razao_social')->label('Razão social')->required(),
+                Forms\Components\TextInput::make('status')->label('Status')->required(),
+                Forms\Components\TextInput::make('data_abertura')->label('Data de Abertura')->required(),
+                
                 Forms\Components\Select::make('Usuario_id')
                 ->label('Selecione um usuário')
                 ->options(Cliente::all()->pluck('nome', 'id'))
@@ -118,6 +142,8 @@ class EmpresaResource extends Resource
                 ]),
             ]);
     }
+
+
 
     public static function getRelations(): array
     {

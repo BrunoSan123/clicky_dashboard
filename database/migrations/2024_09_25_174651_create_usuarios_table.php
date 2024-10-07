@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('tipo')->nullable();
             $table->string('cnpj')->nullable();
             $table->string('cpf')->nullable();
+            $table->string('cidade')->nullable();
+            $table->string('rua')->nullable();
+            $table->string('pais')->nullable();
             $table->timestamps();
         });
     }

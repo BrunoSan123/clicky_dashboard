@@ -63,7 +63,12 @@ class ClienteResource extends Resource
                     // Segundo Card
                     Card::make()
                     ->schema([
-                        
+                        Forms\Components\Placeholder::make('created_at')
+                        ->label('Criado em')
+                        ->content(fn ($record) => $record->created_at->format('d/m/Y H:i:s')),
+                        Forms\Components\Placeholder::make('created_at')
+                        ->label('Atualizado em')
+                        ->content(fn ($record) => $record->created_at->format('d/m/Y H:i:s')),
                          // Apenas para visualização
                     ])->columnSpan(1)->visibleOn('edit')
                 ]), 
