@@ -16,7 +16,7 @@ class Empreendimento_status extends BaseWidget
             //
             Stat::make('Empreendimentos', count(Empreendimento::all())),
             Stat::make('Unidades', count(Unidade::all())),
-            Stat::make('Unidades', count(Imovel::all())),
+            Stat::make('Imóveis', count(Imovel::all())),
 
         ];
     }
