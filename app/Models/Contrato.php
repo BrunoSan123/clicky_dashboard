@@ -7,11 +7,14 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Contrato extends Model
 {
     use HasFactory;
     use HasUuids;
+    use LogsActivity;
 
     protected $fillable=['numero_do_contrato','nome_do_contratante','data_de_inicio','data_de_termino','valor_do_contrato','data_de_emissão','Empreendimento_id','status','valor_da_parcela','Unidade_id'];
 
@@ -30,6 +33,13 @@ class Contrato extends Model
             $contrato->data_de_emissão=Carbon::now();
             $contrato->status='pagamento pendente';
         });
+    }
+
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['numero_do_contrato', 'status']);
     }
      
     public function empreendimento(){

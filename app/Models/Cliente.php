@@ -31,7 +31,7 @@ class Cliente  extends Authenticatable
     }
 
     public function endereços(){
-        return $this->hasMany(Endereco::class);
+        return $this->hasMany(Endereco::class,'Usuario_id');
     }
 
 }

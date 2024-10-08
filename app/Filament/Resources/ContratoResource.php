@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Leandrocfe\FilamentPtbrFormFields\Currencies\BRL;
 use Leandrocfe\FilamentPtbrFormFields\Money;
+use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 
 class ContratoResource extends Resource
 {
@@ -103,6 +104,7 @@ class ContratoResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                ActivityLogTimelineTableAction::make('Activities'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -117,6 +119,7 @@ class ContratoResource extends Resource
             //
         ];
     }
+
 
     public static function getPages(): array
     {
