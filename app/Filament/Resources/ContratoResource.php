@@ -84,14 +84,14 @@ class ContratoResource extends Resource
                 Tables\Columns\BadgeColumn::make('status')
                 ->label('Status')
                 ->colors([
-                    'success' => 'sem pendencias',        // Verde para 'sem pendencias'
-                    'danger' => 'pagamento pendente',     // Vermelho para 'pagamento pendente'
-                    'warning' => 'processando pagamento', // Amarelo para 'processando pagamento'
+                    'success' => 'assinado',        // Verde para 'sem pendencias'
+                    'danger' => 'cancelado',     // Vermelho para 'pagamento pendente'
+                    'warning' => 'assinatura pendente', // Amarelo para 'processando pagamento'
                 ])
                 ->formatStateUsing(fn ($state) => match ($state) {
-                    'sem pendencias' => 'Sem Pendências',
-                    'pagamento pendente' => 'Pagamento Pendente',
-                    'processando pagamento' => 'Processando Pagamento',
+                    'assinado' => 'Assinado',
+                    'assinatura pendente' => 'Assinatura pendente',
+                    'cancelado' => 'Cancelado',
                     default => 'Indefinido',
                 }),
                 Tables\Columns\TextColumn::make('data_de_emissão')->label('Data de emissão'),

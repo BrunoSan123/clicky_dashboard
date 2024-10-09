@@ -31,7 +31,7 @@ class Contrato extends Model
             // Gera um número aleatório para o campo 'codigo' se ele ainda não estiver definido
             $contrato->numero_do_contrato = $contrato->numero_do_contrato ?? rand(100000, 999999);
             $contrato->data_de_emissão=Carbon::now();
-            $contrato->status='pagamento pendente';
+            $contrato->status='assinatura pendente';
         });
     }
 
