@@ -23,7 +23,9 @@ return new class extends Migration
             $table->string('data_de_emissão');
             $table->uuid('Empreendimento_id');
             $table->uuid('Unidade_id');
+            $table->uuid('Usuario_id')->nullable();
             $table->foreign('Empreendimento_id')->references('id')->on('empreendimentos')->onDelete('cascade');
+            $table->foreign('Usuario_id')->references('id')->on('Clientes')->onDelete('cascade');
 
             $table->timestamps();
         });

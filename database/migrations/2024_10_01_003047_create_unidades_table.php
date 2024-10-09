@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('cnpj')->nullable();
             $table->string('região')->nullable();
             $table->uuid('Empreendimento_id');
+            $table->uuid('Usuario_id')->nullable();
             $table->timestamps();
             $table->foreign('Empreendimento_id')->references('id')->on('empreendimentos')->onDelete('cascade');
+            $table->foreign('Usuario_id')->references('id')->on('clientes')->onDelete('cascade');
         });
 
         Schema::table('empreendimentos',function(Blueprint $table){

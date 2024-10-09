@@ -11,7 +11,7 @@ class Unidade extends Model
     use HasFactory;
     use HasUuids;
 
-    protected $fillable=['nome_da_unidade','quantidade','cnpj','região','Empreendimento_id'];
+    protected $fillable=['nome_da_unidade','quantidade','cnpj','região','Empreendimento_id','Usuario_id'];
 
 
     public function empreendimento(){
@@ -20,6 +20,10 @@ class Unidade extends Model
 
     public function imoveis(){
         return $this->hasMany(Imovel::class);
+    }
+
+    public function cliente(){
+        return $this->belongsTo(Cliente::class,'Usuario_id');
     }
 
 }

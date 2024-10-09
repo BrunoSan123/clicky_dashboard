@@ -19,6 +19,15 @@ class EndereçosRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('cidade')
+                    ->label('Cidade')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('rua')
+                    ->label('Rua')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('pais')
+                    ->label('Pais')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -29,7 +38,10 @@ class EndereçosRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('cidade')
             ->columns([
-                Tables\Columns\TextColumn::make('cidade'),
+                Tables\Columns\TextColumn::make('cidade')->label('Cidade'),
+                Tables\Columns\TextColumn::make('rua')->label('Rua'),
+                Tables\Columns\TextColumn::make('pais')->label('Pais'),
+
             ])
             ->filters([
                 //

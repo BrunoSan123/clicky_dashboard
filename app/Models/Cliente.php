@@ -34,4 +34,16 @@ class Cliente  extends Authenticatable
         return $this->hasMany(Endereco::class,'Usuario_id');
     }
 
+    public function pagamentos(){
+        return $this->hasMany(Pagamento::class,'Usuario_id');
+    }
+
+    public function contratos(){
+        return $this->hasMany(Contrato::class,'Usuario_id');
+    }
+
+    public function unidades(){
+        return $this->hasMany(Unidade::class,'Usuario_id');
+    }
+
 }

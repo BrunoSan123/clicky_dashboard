@@ -17,8 +17,11 @@ return new class extends Migration
             $table->float('valor');
             $table->boolean('pago')->default(0);
             $table->uuid('Contrato_id');
+            $table->uuid('Usuario_id')->nullable();
+            $table->string('data_de_vencimento');
             $table->timestamps();
             $table->foreign('Contrato_id')->references('id')->on('contratos')->onDelete('cascade');
+            $table->foreign('Usuario_id')->references('id')->on('clientes')->onDelete('cascade');
         });
     }
 

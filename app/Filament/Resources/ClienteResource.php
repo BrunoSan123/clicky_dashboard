@@ -4,7 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Clusters\Empreendimentos;
 use App\Filament\Resources\ClienteResource\Pages;
+use App\Filament\Resources\ClienteResource\RelationManagers\ContratosRelationManager;
 use App\Filament\Resources\ClienteResource\RelationManagers\EndereçosRelationManager;
+use App\Filament\Resources\ClienteResource\RelationManagers\PagamentosRelationManager;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\Cliente;
 use App\Models\Empreendimento;
@@ -124,7 +126,9 @@ class ClienteResource extends Resource
     public static function getRelations(): array
     {
         return [
-            EndereçosRelationManager::class
+            EndereçosRelationManager::class,
+            PagamentosRelationManager::class,
+            ContratosRelationManager::class
         ];
     }
 
