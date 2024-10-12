@@ -13,15 +13,21 @@ use App\Models\Empreendimento;
 use App\Models\Endereco;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Http;
+use Filament\Forms\Components\Button;
+use Filament\Pages\Actions\Modal\Actions\ButtonAction;
 
 class ClienteResource extends Resource
 {
@@ -63,7 +69,41 @@ class ClienteResource extends Resource
                                 Forms\Components\TextInput::make('cpf')
                                     ->label('CPF'),
                                 Forms\Components\TextInput::make('cnpj')
-                                    ->label('CNPJ'),
+                                    ->label('CNPJ')->suffixAction(fn($state,Set $set)=>
+                                    Action::make('search-action')
+                                    ->icon('feathericon-search')
+                                    ->action(function() use($state,$set){
+                                        if(blank($state)){
+                                            Notification::make()->title('Digite o CNPJ para validar')->danger()->send();
+                                            return;
+                                         }
+                                         try {
+                                            $cnpjData=Http::get("https://api-publica.speedio.com.br/buscarcnpj?cnpj={$state}")->throw()->json();
+                                            if(isset($cnpjData['error'])){
+                                                Notification::make()->title('CNPJ invalido')->danger()->send();
+                                            }else{
+                                                //dd($cnpjData['STATUS']!='ATIVA');
+                                                if($cnpjData['STATUS']!='ATIVA'){
+                                                    Notification::make()->title('Ação não permitida. O status precisa ser ativo.')->danger()->send();
+                                                    $set('apiStatus','inativa');
+                                                    return; // Evita que o formulário seja enviado
+                                                    
+                                                
+                                                }else{
+                                                    $set('nome',$cnpjData['NOME FANTASIA']);
+                                                    Notification::make()->title('CNPJ validado')->success()->send();
+                                                    
+                                                }
+                                                
+                
+                                            }
+                                         } catch (\Throwable $th) {
+                                            dd($th->getMessage());
+                                            Notification::make()->title('Erro na requisição')->danger()->send();
+                                            return;
+                                         }
+                                    })
+                                ),
                             ])->columnSpan(1),
 
                             Grid::make(2)
@@ -140,6 +180,7 @@ class ClienteResource extends Resource
             'edit' => Pages\EditCliente::route('/{record}/edit'),
         ];
     }
+
 
 
     public static function saved($record): void

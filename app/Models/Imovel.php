@@ -11,7 +11,7 @@ class Imovel extends Model
     use HasFactory;
     use HasUuids;
 
-    protected $fillable=['nome_do_imovel','cep','endereço','Unidade_id'];
+    protected $fillable=['nome_do_imovel','cep','endereço','rua','uf','cidade','Unidade_id'];
 
     public function unidade(){
         return $this->belongsTo(Unidade::class,'Unidade_id');

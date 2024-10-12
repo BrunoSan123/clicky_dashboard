@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('nome_do_imovel');
             $table->string('cep');
             $table->string('endereço');
+            $table->string('rua')->nullable();
+            $table->string('uf');
+            $table->string('cidade');
             $table->uuid('Unidade_id');
             $table->timestamps();
             $table->foreign('Unidade_id')->references('id')->on('unidades')->onDelete('cascade');
